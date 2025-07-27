@@ -40,7 +40,7 @@ public class Main {
             System.out.println("7 - Finalizar jogo");
             System.out.println("8 - Sair");
 
-            option = scanner.nextInt();
+            option = readValidInt();
 
             switch (option){
                 case 1 -> startGame(positions);
@@ -162,7 +162,7 @@ public class Main {
 
     private static void finishGame() {
         if (isNull(board)){
-            System.out.println("O jogo ainda não foi iniciado iniciado");
+            System.out.println("O jogo ainda não foi iniciado");
             return;
         }
 
@@ -171,7 +171,7 @@ public class Main {
             showCurrentGame();
             board = null;
         } else if (board.hasErrors()) {
-            System.out.println("Seu jogo conté, erros, verifique seu board e ajuste-o");
+            System.out.println("Seu jogo contém erros, verifique seu board e ajuste-o");
         } else {
             System.out.println("Você ainda precisa preenhcer algum espaço");
         }
@@ -179,12 +179,27 @@ public class Main {
 
 
     private static int runUntilGetValidNumber(final int min, final int max){
-        var current = scanner.nextInt();
+        var current = readValidInt();
+
         while (current < min || current > max){
             System.out.printf("Informe um número entre %s e %s\n", min, max);
-            current = scanner.nextInt();
+            current = readValidInt();
         }
         return current;
+    }
+
+    private static int readValidInt() {
+
+        while(true){
+            if (scanner.hasNextInt()) {
+                int value = scanner.nextInt();
+                return value;
+            }
+            else {
+                String invalid = scanner.next();
+                System.out.println("Entrada inválida: '" + invalid + "'. Por favor, digite um número inteiro.");
+            }
+        }
     }
 
 }
